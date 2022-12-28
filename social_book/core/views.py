@@ -3,4 +3,4 @@ from django.http import HttpResponse
 
 # Create your views here.to 
 def index(request):
-    return HttpResponse("wel come to social app")
+    return render(request,'index.html')
