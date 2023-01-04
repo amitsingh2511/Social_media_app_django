@@ -11,9 +11,7 @@ import random
 
 @login_required(login_url='signin')
 def index(request):
-    print("========Amit")
     user_object = User.objects.get(username=request.user.username)
-    print("user_object===========",user_object)
     # user_profile = Profile.objects.get(user=user_object)
 
     user_following_list = []
@@ -76,7 +74,7 @@ def upload(request):
 @login_required(login_url='signin')
 def search(request):
     user_object = User.objects.get(username=request.user.username)
-    # user_profile = Profile.objects.get(user=user_object)
+    user_profile = Profile.objects.get(user=user_object)
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -93,14 +91,12 @@ def search(request):
             username_profile_list.append(profile_lists)
         
         username_profile_list = list(chain(*username_profile_list))
-    return render(request, 'search.html', {'user_profile': "user_profile", 'username_profile_list': username_profile_list})
+    return render(request, 'search.html', {'user_profile': user_profile, 'username_profile_list': username_profile_list})
 
 @login_required(login_url='signin')
 def like_post(request):
-    print("amit===")
     username = request.user.username
     post_id = request.GET.get('post_id')
-    print("username=========",username)
     post = Post.objects.get(id=post_id)
 
     like_filter = LikePost.objects.filter(post_id=post_id, username=username).first()
